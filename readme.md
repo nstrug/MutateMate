@@ -1,6 +1,6 @@
 # Mutate Mate
 
-## _Kubernetes Mutation Webhook İplementation for secret, resource management_
+## _Kubernetes Mutation Webhook Iplementation for Secrets and Resource Management(CPU, RAM, GPU)_
 
 At our company we are using a tool for Data Science operations. This tool has flaws. To fix that we thought using Mutating Web Hooks is a great option.
 
@@ -13,4 +13,4 @@ As a second step, if the call is for Elyra Pipelines; API will get the limitatio
 This way secrets will be auto assigned and will be at single namespace.
 Elyra Pipelines is resource and secrets will be installed automatically with no manuel operation.
 
-If you have same problem, Ihope this will solve your problem too.
+If you have same problem, I hope this will solve your problem too.
