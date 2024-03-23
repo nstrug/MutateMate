@@ -27,7 +27,7 @@ def mutate_pod():
     #return request.json
     #
 
-    req_json = request.json
+    req_json = request.json.copy()
 
     val_kind = req_json["kind"]
     if val_kind not in crd_name_list : return req_json

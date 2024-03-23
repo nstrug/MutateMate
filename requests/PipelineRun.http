@@ -2,6 +2,7 @@
 
 
 POST {{baseUrl}}/mutate
+Content-Type: application/json
 
 {
     "apiVersion": "tekton.dev/v1",
