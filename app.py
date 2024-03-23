@@ -17,8 +17,8 @@ cnst_pipeline = "PipelineRun"
 cnst_notebook = "Notebook"
 crd_name_list = [ cnst_pipeline, cnst_notebook ]
 
-mtt_notebook = NotebookMutaterService()
-mtt_pipeline = PipelineRunMutaterService()
+notebook_mutater = NotebookMutaterService()
+pipeline_mutater = PipelineRunMutaterService()
 
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
@@ -42,9 +42,9 @@ def mutate_pod():
     val_cpu, val_ram, val_gpu = kube_service.get_all_resources()
 
     if val_kind == cnst_pipeline: 
-        return mtt_pipeline.mutate(req_json, secrets_targeted, val_cpu, val_ram, val_gpu)
+        return pipeline_mutater.mutate(req_json, secrets_targeted, val_cpu, val_ram, val_gpu)
     elif val_kind == cnst_notebook: 
-        return mtt_notebook.mutate(req_json, secrets_targeted, val_cpu, val_ram, val_gpu)
+        return notebook_mutater.mutate(req_json, secrets_targeted, val_cpu, val_ram, val_gpu)
 
     return req_json
 
