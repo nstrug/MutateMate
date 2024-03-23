@@ -1,0 +1,185 @@
+---
+apiVersion: kubeflow.org/v1
+kind: Notebook
+metadata:
+  annotations:
+    notebooks.opendatahub.io/inject-oauth: 'true'
+    opendatahub.io/image-display-name: Standard Data Science
+    notebooks.opendatahub.io/oauth-logout-url: >-
+      https://rhods-dashboard-redhat-ods-applications.apps.cluster-xkhd8.xkhd8.sandbox664.opentlc.com/projects/cansutest?notebookLogout=cansu
+    opendatahub.io/accelerator-name: ''
+    openshift.io/description: ''
+    openshift.io/display-name: cansu
+    notebooks.opendatahub.io/last-image-selection: 's2i-generic-data-science-notebook:2023.2'
+    notebooks.opendatahub.io/last-size-selection: Small
+    opendatahub.io/username: admin
+  resourceVersion: '1087484'
+  name: cansu
+  namespace: cansutest
+  labels:
+    app: cansu
+    opendatahub.io/dashboard: 'true'
+    opendatahub.io/odh-managed: 'true'
+    opendatahub.io/user: admin
+spec:
+  template:
+    spec:
+      affinity: {}
+      containers:
+        - resources: # Elyra'ya inject edilecek resource bilgileri bu bolumden alinacak ve PipelineRun'a bu formatta her task icin inject edilecek
+            limits:
+              cpu: '2'
+              memory: 8Gi
+            requests:
+              cpu: '1'
+              memory: 8Gi
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /notebook/cansutest/cansu/api
+              port: notebook-port
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: cansu
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /notebook/cansutest/cansu/api
+              port: notebook-port
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          env: # Bu listeye inject edilecek secretlar eklenecek
+            - name: NOTEBOOK_ARGS
+              value: |-
+                --ServerApp.port=8888
+                                  --ServerApp.token=''
+                                  --ServerApp.password=''
+                                  --ServerApp.base_url=/notebook/cansutest/cansu
+                                  --ServerApp.quit_button=False
+                                  --ServerApp.tornado_settings={"user":"admin","hub_host":"https://rhods-dashboard-redhat-ods-applications.apps.cluster-xkhd8.xkhd8.sandbox664.opentlc.com","hub_prefix":"/projects/cansutest"}
+            - name: JUPYTER_IMAGE
+              value: >-
+                image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/s2i-generic-data-science-notebook:2023.2
+          ports:
+            - containerPort: 8888
+              name: notebook-port
+              protocol: TCP
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /opt/app-root/src
+              name: cansu
+            - mountPath: /dev/shm
+              name: shm
+            - mountPath: /etc/pki/tls/certs/custom-ca-bundle.crt
+              name: trusted-ca
+              readOnly: true
+              subPath: custom-ca-bundle.crt
+            - mountPath: /opt/app-root/runtimes
+              name: elyra-dsp-details
+          envFrom:
+            - secretRef:
+                name: aws-connection-thy-workshop
+            - secretRef:
+                name: secret-nrxbwe
+            - secretRef:
+                name: secret-fbblzj
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/s2i-generic-data-science-notebook:2023.2
+          workingDir: /opt/app-root/src
+        - resources:
+            limits:
+              cpu: 100m
+              memory: 64Mi
+            requests:
+              cpu: 100m
+              memory: 64Mi
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /oauth/healthz
+              port: oauth-proxy
+              scheme: HTTPS
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: oauth-proxy
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /oauth/healthz
+              port: oauth-proxy
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          env:
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          ports:
+            - containerPort: 8443
+              name: oauth-proxy
+              protocol: TCP
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /etc/oauth/config
+              name: oauth-config
+            - mountPath: /etc/tls/private
+              name: tls-certificates
+          image: >-
+            registry.redhat.io/openshift4/ose-oauth-proxy@sha256:4bef31eb993feb6f1096b51b4876c65a6fb1f4401fee97fa4f4542b6b7c9bc46
+          args:
+            - '--provider=openshift'
+            - '--https-address=:8443'
+            - '--http-address='
+            - '--openshift-service-account=cansu'
+            - '--cookie-secret-file=/etc/oauth/config/cookie_secret'
+            - '--cookie-expire=24h0m0s'
+            - '--tls-cert=/etc/tls/private/tls.crt'
+            - '--tls-key=/etc/tls/private/tls.key'
+            - '--upstream=http://localhost:8888'
+            - '--upstream-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
+            - '--email-domain=*'
+            - '--skip-provider-button'
+            - >-
+              --openshift-sar={"verb":"get","resource":"notebooks","resourceAPIGroup":"kubeflow.org","resourceName":"cansu","namespace":"$(NAMESPACE)"}
+            - >-
+              --logout-url=https://rhods-dashboard-redhat-ods-applications.apps.cluster-xkhd8.xkhd8.sandbox664.opentlc.com/projects/cansutest?notebookLogout=cansu
+      enableServiceLinks: false
+      serviceAccountName: cansu
+      volumes:
+        - name: cansu
+          persistentVolumeClaim:
+            claimName: cansu
+        - emptyDir:
+            medium: Memory
+          name: shm
+        - configMap:
+            items:
+              - key: ca-bundle.crt
+                path: custom-ca-bundle.crt
+              - key: odh-ca-bundle.crt
+                path: custom-odh-ca-bundle.crt
+            name: odh-trusted-ca-bundle
+            optional: true
+          name: trusted-ca
+        - name: oauth-config
+          secret:
+            defaultMode: 420
+            secretName: cansu-oauth-config
+        - name: tls-certificates
+          secret:
+            defaultMode: 420
+            secretName: cansu-tls
+        - name: elyra-dsp-details
+          secret:
+            secretName: ds-pipeline-config
