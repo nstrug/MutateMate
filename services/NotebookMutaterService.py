@@ -6,5 +6,5 @@ class NotebookMutaterService:
     def __init__(self) -> None:
         pass
 
-    def mutate(data : json) -> json:
+    def mutate(self, data : json, secrets : dict, cpu : str, ram : str, gpu : str) -> json:
         pass
