@@ -24,7 +24,7 @@ pipeline_mutater = PipelineRunMutaterService()
 def mutate_pod():
     print(request.json)
     #For Emergency. By pass everything
-    return request.json
+    return send_reponse(request.json)
     #
 
     req_json = request.json.copy()
@@ -48,6 +48,19 @@ def mutate_pod():
 
     return req_json
 
+def send_reponse(req_json):
+    admission_response = {
+        "uid": req_json['request']['uid'],
+        "allowed": True,
+        "patchType": "JSONPatch",
+        "patch": [{
+            "op": "replace",
+            "path": "/spec",
+            "value": pod_spec
+        }]
+    }
+    
+    return jsonify(admission_response)
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0', port=8080, ssl_context=("/tmp/k8s-webhook-server/serving-certs/tls.crt", "/tmp/k8s-webhook-server/serving-certs/tls.key"))
