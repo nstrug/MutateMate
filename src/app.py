@@ -24,7 +24,7 @@ pipeline_mutater = PipelineRunMutaterService()
 def mutate_pod():
     print(request.json)
     #For Emergency. By pass everything
-    #return request.json
+    return request.json
     #
 
     req_json = request.json.copy()
