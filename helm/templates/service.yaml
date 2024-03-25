@@ -1,18 +1,18 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: { { .Values.appname } }
+  name: {{ .Values.appname }}
   labels:
-    app: { { .Values.appname } }
+    app: {{ .Values.appname }}
     app.belongs.to: AdvancedAnalytic
   annotations:
     service.beta.openshift.io/inject-cabundle: "true"
-    service.beta.openshift.io/serving-cert-secret-name: { { .Values.appname } }
+    service.beta.openshift.io/serving-cert-secret-name: {{ .Values.appname }}
 spec:
   ports:
-    - name: { { .Values.appname } }
+    - name: {{ .Values.appname }}-443
       port: 443
       targetPort: 443
   selector:
-    app: { { .Values.appname } }
+    app: {{ .Values.appname }}
   type: ClusterIP

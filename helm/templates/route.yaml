@@ -1,17 +1,18 @@
+---
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: { { .Values.appname } }
+  name: {{ .Values.appname }}
   labels:
-    app: { { .Values.appname } }
+    app: {{ .Values.appname }}
     app.belongs.to: AdvancedAnalytic
 spec:
   to:
     kind: Service
-    name: { { .Values.appname } }
+    name: {{ .Values.appname }}-443
     weight: 100
   port:
-    targetPort: { { .Values.appname } }
+    targetPort: {{ .Values.appname }}
   tls:
     termination: edge
     insecureEdgeTerminationPolicy: Redirect
