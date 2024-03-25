@@ -50,4 +50,5 @@ def mutate_pod():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, ssl_context=("/tmp/k8s-webhook-server/serving-certs/tls.crt", "/tmp/k8s-webhook-server/serving-certs/tls.key"))
+    #app.run(host='0.0.0.0', port=8080, ssl_context=("/tmp/k8s-webhook-server/serving-certs/tls.crt", "/tmp/k8s-webhook-server/serving-certs/tls.key"))
+    app.run(host='0.0.0.0', port=8080)
