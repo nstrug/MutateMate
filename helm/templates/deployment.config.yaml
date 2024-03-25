@@ -28,6 +28,11 @@ spec:
         app: {{ .Values.appname }}
         deploymentconfig: {{ .Values.appname }}
     spec:
+      volumes:
+        - name: webhook-tls-certs
+          secret:
+            secretName: {{ .Values.appname }}
+            defaultMode: 420
       containers:
         - name: {{ .Values.appname }}
           image: >-
@@ -36,4 +41,9 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ .Values.appname }}
+          volumeMounts:
+            - name: webhook-tls-certs
+              readOnly: true
+              mountPath: /tmp/k8s-webhook-server/serving-certs
+
     
