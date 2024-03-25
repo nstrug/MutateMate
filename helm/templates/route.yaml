@@ -9,7 +9,7 @@ metadata:
 spec:
   to:
     kind: Service
-    name: {{ .Values.appname }}-443
+    name: {{ .Values.appname }}-8080
     weight: 100
   port:
     targetPort: {{ .Values.appname }}
