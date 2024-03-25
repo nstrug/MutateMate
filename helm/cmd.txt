@@ -1,3 +1,0 @@
-helm install kubelifeapp C:\CSharp\KubeLife\helm\dev
-
-helm upgrade kubelifeapp C:\CSharp\KubeLife\helm\dev
