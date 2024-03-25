@@ -1,0 +1,10 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: {{ .Values.appname }}
+  labels:
+    app: {{ .Values.appname }}
+    app.belongs.to: AdvancedAnalytic
+spec:
+  lookupPolicy:
+    local: true

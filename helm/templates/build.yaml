@@ -1,0 +1,30 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: {{ .Values.appname }}
+  labels:
+    app: {{ .Values.appname }}
+    app.belongs.to: AdvancedAnalytic
+spec:
+  runPolicy: Serial
+  output:
+    to:
+      kind: ImageStreamTag
+      name: '{{ .Values.appname }}:@latest'
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  source:
+    type: Git
+    git:
+      uri: {{ .Values.gitadress }}
+      ref: {{ .Values.branchname }}
+    contextDir: {{ .Values.dockerpath }}
+  triggers:
+    - type: "Generic"
+      generic:
+        secretReference:
+          name: {{ .Values.appname }}-bitbucket-webhook-secret
+    - type: ConfigChange
+  

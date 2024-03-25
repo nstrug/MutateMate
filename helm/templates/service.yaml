@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.appname }}
+  labels:
+    app: {{ .Values.appname }}
+    app.belongs.to: AdvancedAnalytic
+spec:
+  ports:
+    - name: {{ .Values.appname }}-5000
+      port: 5000
+      targetPort: 5000
+  selector:
+    app: {{ .Values.appname }}
+  type: ClusterIP

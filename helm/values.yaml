@@ -1,0 +1,5 @@
+appname: mutatemateapi
+replicacount: 1
+gitadress: "https://github.com/SonizciTR/MutateMate.git"
+dockerpath: "/src/"
+branchname: dev

@@ -1,0 +1,41 @@
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: {{ .Values.appname }}
+  labels:
+    app: {{ .Values.appname }}
+    app.belongs.to: AdvancedAnalytic
+spec:
+  replicas: {{ .Values.replicacount }}
+  selector:
+    app: {{ .Values.appname }}
+  triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - {{ .Values.appname }}
+        from:
+          kind: ImageStreamTag
+          name: {{ .Values.appname }}:latest
+      type: ImageChange
+  strategy:
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: {{ .Values.appname }}
+        deploymentconfig: {{ .Values.appname }}
+    spec:
+      containers:
+        - name: {{ .Values.appname }}
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/{{ .Release.Namespace }}/{{ .Values.appname }}:latest
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.appname }}
+            - secretRef:
+                  name: {{ .Values.appname }}
+    
