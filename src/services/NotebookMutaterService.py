@@ -7,4 +7,4 @@ class NotebookMutaterService:
         pass
 
     def mutate(self, data : json, secrets : dict, cpu : str, ram : str, gpu : str) -> json:
-        pass
+        return data
