@@ -107,7 +107,13 @@ def send_response(req_json):
             }
         }
     
-    return jsonify(response)
+    rspx = jsonify(response)
+    print(">>>>>")
+    print(response)
+    print(rspx)
+    print("<<<<<")
+    
+    return rspx
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
