@@ -78,6 +78,7 @@ def mutate_pod():
     return req_json
 
 def send_reponse(req_json, repsonse_array = []):
+    return jsonify(req_json)
     
     uid = req_json['request']['uid']
     print(f"uid => {uid}")
