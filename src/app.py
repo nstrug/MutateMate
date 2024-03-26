@@ -46,15 +46,6 @@ def validate():
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
     print("*** mutate")
-    # Extract the admission review request
-    admission_review = request.json
-    admission_review["response"] = admission_review["request"]["object"]
-    
-    # Log the received admission review (optional)
-    print("Received admission review:", admission_review)
-    
-    # Return the original admission review without making any changes
-    return jsonify(admission_review)
     print(request.json)
     
 
@@ -84,37 +75,19 @@ def mutate_pod():
     return req_json
 
 def send_response(req_json):
-    #return jsonify(req_json)
-    
-    # uid = req_json['request']['uid']
-    # print(f"uid => {uid}")
-    # response = {
-    #         "response": {
-    #             "allowed": True,
-    #             "uid": request.json["request"]["uid"],
-    #             "patch": base64.b64encode(str(req_inside).encode()).decode(),
-    #             "patchtype": "JSONPatch",
-    #         }
-    # }
-
+    #https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
     print("-----------")
-    # spec = req_json["request"]["object"]
-    # print(spec)
-
-    # response = req_json.copy()
-    
-    # response["request"] = spec
-    # response["response"] = spec
-
     response = req_json.copy()
     
     uid = req_json['request']['uid']
-    response["response"] = {
-                "uid": uid,
-                "allowed": True,
-                "patch": "[]",
-                "patchType": "JSONPatch",
-            }
+    response = {
+        "apiVersion": "admission.k8s.io/v1",
+        "kind": "AdmissionReview",
+        "response": {
+            "uid": uid,
+            "allowed": True
+        }
+    }
         
     
     rspx = jsonify(response)
