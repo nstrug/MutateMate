@@ -14,3 +14,7 @@ This way secrets will be auto assigned and will be at single namespace.
 Elyra Pipelines is resource and secrets will be installed automatically with no manuel operation.
 
 If you have same problem, I hope this will solve your problem too.
+
+## Thanks
+
+This project is possible with @ckavili's help. Thank you
