@@ -89,13 +89,23 @@ def send_response(req_json):
     # }
 
     print("-----------")
-    spec = req_json["request"]["object"]
-    print(spec)
+    # spec = req_json["request"]["object"]
+    # print(spec)
 
-    response = req_json.copy()
+    # response = req_json.copy()
     
-    response["request"] = spec
-    response["response"] = spec
+    # response["request"] = spec
+    # response["response"] = spec
+    
+    uid = req_json['request']['uid']
+    response = {
+            "response": {
+                "uid": uid,
+                "allowed": True,
+                "patch": "[]",
+                "patchType": "JSONPatch",
+            }
+        }
     
     return jsonify(response)
 
