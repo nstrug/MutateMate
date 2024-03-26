@@ -1,4 +1,5 @@
 import os
+import base64
 
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
@@ -69,15 +70,14 @@ def mutate_pod():
     return req_json
 
 def send_reponse(req_json, repsonse_array = []):
-    return jsonify(req_json)
-
+    
     uid = req_json['request']['uid']
     print(f"uid => {uid}")
     response = {
         "uid": uid,
         "allowed": True,
         "patchType": "JSONPatch",
-        "patch": repsonse_array
+        "patch": base64.b64encode(str(req_json).encode()).decode()
     }
     
     return jsonify(response)
