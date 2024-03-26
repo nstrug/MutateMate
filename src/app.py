@@ -47,13 +47,10 @@ def validate():
 def mutate_pod():
     print("*** mutate")
     print(request.json)
-    spec = request.json["request"]["object"]
-    print("-----------")
-    print(spec)
-    modified_spec = copy.deepcopy(spec)
+    
 
     #For Emergency. By pass everything
-    return send_response(request.json, modified_spec)
+    return send_response(request.json)
     #
 
     req_json = request.json.copy()
@@ -77,7 +74,7 @@ def mutate_pod():
 
     return req_json
 
-def send_response(req_json, req_inside):
+def send_response(req_json):
     #return jsonify(req_json)
     
     # uid = req_json['request']['uid']
@@ -91,9 +88,13 @@ def send_response(req_json, req_inside):
     #         }
     # }
 
+    print("-----------")
+    print(spec)
+
     response = req_json.copy()
-    response["request"] = req_json
-    response["response"] = req_json
+    spec = req_json["request"]["object"]
+    response["request"] = spec
+    response["response"] = spec
     
     return jsonify(response)
 
