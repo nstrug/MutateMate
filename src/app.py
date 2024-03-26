@@ -1,5 +1,6 @@
 import os
 import base64
+import copy
 
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
@@ -46,8 +47,13 @@ def validate():
 def mutate_pod():
     print("*** mutate")
     print(request.json)
+    spec = request.json["request"]["object"]
+    print("-----------")
+    print(spec)
+    modified_spec = copy.deepcopy(spec)
+
     #For Emergency. By pass everything
-    return send_reponse(request.json)
+    return send_reponse(modified_spec)
     #
 
     req_json = request.json.copy()
