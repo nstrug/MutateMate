@@ -53,7 +53,7 @@ def mutate_pod():
     modified_spec = copy.deepcopy(spec)
 
     #For Emergency. By pass everything
-    return send_reponse(request.json, modified_spec)
+    return send_response(request.json, modified_spec)
     #
 
     req_json = request.json.copy()
@@ -77,20 +77,23 @@ def mutate_pod():
 
     return req_json
 
-def send_reponse(req_json, req_inside):
+def send_response(req_json, req_inside):
     #return jsonify(req_json)
     
-    uid = req_json['request']['uid']
-    print(f"uid => {uid}")
-    response = {
-            "response": {
-                "allowed": True,
-                "uid": request.json["request"]["uid"],
-                "patch": base64.b64encode(str(req_inside).encode()).decode(),
-                "patchtype": "JSONPatch",
-            }
-    }
-    
+    # uid = req_json['request']['uid']
+    # print(f"uid => {uid}")
+    # response = {
+    #         "response": {
+    #             "allowed": True,
+    #             "uid": request.json["request"]["uid"],
+    #             "patch": base64.b64encode(str(req_inside).encode()).decode(),
+    #             "patchtype": "JSONPatch",
+    #         }
+    # }
+
+    response = req_json.copy()
+    response["request"] = req_json
+    response["response"] = req_json
     
     return jsonify(response)
 
