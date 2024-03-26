@@ -1,6 +1,6 @@
 # Mutate Mate
 
-## _Kubernetes Mutation Webhook Iplementation for Secrets and Resource Management(CPU, RAM, GPU)_
+## _Kubernetes Mutating Webhook Iplementation for Secrets and Resource Management(CPU, RAM, GPU)_
 
 At our company we are using a tool for Data Science operations. This tool has flaws. To fix that we thought using Mutating Web Hooks is a great option.
 
