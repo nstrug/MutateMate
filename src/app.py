@@ -80,7 +80,7 @@ def send_response(req_json):
     response = req_json.copy()
     uid = req_json['request']['uid']
 
-    response["request"] = None
+    #response["request"] = None
     response["response"] = {
             "uid": uid,
             "allowed": True
