@@ -96,23 +96,24 @@ def send_response(req_json):
     
     # response["request"] = spec
     # response["response"] = spec
+
+    response = req_json.copy()
     
     uid = req_json['request']['uid']
-    response = {
-            "response": {
+    response["response"] = {
                 "uid": uid,
                 "allowed": True,
                 "patch": "[]",
                 "patchType": "JSONPatch",
             }
-        }
+        
     
     rspx = jsonify(response)
     print(">>>>>")
     print(response)
     print(rspx)
     print("<<<<<")
-    
+
     return rspx
 
 if __name__ == '__main__':
