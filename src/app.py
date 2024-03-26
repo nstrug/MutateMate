@@ -48,7 +48,7 @@ def mutate_pod():
     print("*** mutate")
     # Extract the admission review request
     admission_review = request.json
-    admission_review["response"] = admission_review["request"]
+    admission_review["response"] = admission_review["request"]["object"]
     
     # Log the received admission review (optional)
     print("Received admission review:", admission_review)
