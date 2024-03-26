@@ -48,19 +48,17 @@ def mutate_pod():
 
     return req_json
 
-def send_reponse(req_json):
-    admission_response = {
-        "uid": req_json['request']['uid'],
+def send_reponse(req_json, repsonse_array = []):
+    uid = req_json['request']['uid']
+    print(f"uid => {uid}")
+    response = {
+        "uid": uid,
         "allowed": True,
         "patchType": "JSONPatch",
-        "patch": [{
-            "op": "replace",
-            "path": "/spec",
-            "value": pod_spec
-        }]
+        "patch": repsonse_array
     }
     
-    return jsonify(admission_response)
+    return jsonify(response)
 
 if __name__ == '__main__':
     #app.run(host='0.0.0.0', port=8080, ssl_context=("/tmp/k8s-webhook-server/serving-certs/tls.crt", "/tmp/k8s-webhook-server/serving-certs/tls.key"))
