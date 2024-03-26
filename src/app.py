@@ -23,6 +23,7 @@ pipeline_mutater = PipelineRunMutaterService()
 
 @app.route("/validate", methods=["POST"])
 def validate():
+    print("*** validate")
     allowed = True
     try:
         for container_spec in request.json["request"]["object"]["spec"]["containers"]:
@@ -43,6 +44,7 @@ def validate():
 
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
+    print("*** mutate")
     print(request.json)
     #For Emergency. By pass everything
     return send_reponse(request.json)
