@@ -89,10 +89,11 @@ def send_response(req_json):
     # }
 
     print("-----------")
+    spec = req_json["request"]["object"]
     print(spec)
 
     response = req_json.copy()
-    spec = req_json["request"]["object"]
+    
     response["request"] = spec
     response["response"] = spec
     
