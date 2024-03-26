@@ -22,32 +22,9 @@ crd_name_list = [ cnst_pipeline, cnst_notebook ]
 notebook_mutater = NotebookMutaterService()
 pipeline_mutater = PipelineRunMutaterService()
 
-@app.route("/validate", methods=["POST"])
-def validate():
-    print("*** validate")
-    allowed = True
-    try:
-        for container_spec in request.json["request"]["object"]["spec"]["containers"]:
-            if "env" in container_spec:
-                allowed = False
-    except KeyError:
-        pass
-    return jsonify(
-        {
-            "response": {
-                "allowed": allowed,
-                "uid": request.json["request"]["uid"],
-                "status": {"message": "env keys are prohibited"},
-            }
-        }
-    )
-
-
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
-    print("*** mutate")
     print(request.json)
-    
 
     #For Emergency. By pass everything
     return send_response(request.json)
@@ -80,33 +57,12 @@ def send_response(req_json):
     response = req_json.copy()
     uid = req_json['request']['uid']
 
-    #response["request"] = None
     response["response"] = {
             "uid": uid,
             "allowed": True
-        }
-    
-    
-    print(">>>>>")
-    print(response)
-    print("<<<<<")
-
-    return jsonify(response)
-
-def send_response2(req_json):
-    #https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
-    print("-----------")
-    response = req_json.copy()
-    
-    uid = req_json['request']['uid']
-    response = {
-        "apiVersion": "admission.k8s.io/v1",
-        "kind": "AdmissionReview",
-        "response": {
-            "uid": uid,
-            "allowed": True
-        }
     }
+    
+    
     print(">>>>>")
     print(response)
     print("<<<<<")
