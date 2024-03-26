@@ -20,6 +20,26 @@ crd_name_list = [ cnst_pipeline, cnst_notebook ]
 notebook_mutater = NotebookMutaterService()
 pipeline_mutater = PipelineRunMutaterService()
 
+@app.route("/validate", methods=["POST"])
+def validate():
+    allowed = True
+    try:
+        for container_spec in request.json["request"]["object"]["spec"]["containers"]:
+            if "env" in container_spec:
+                allowed = False
+    except KeyError:
+        pass
+    return jsonify(
+        {
+            "response": {
+                "allowed": allowed,
+                "uid": request.json["request"]["uid"],
+                "status": {"message": "env keys are prohibited"},
+            }
+        }
+    )
+
+
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
     print(request.json)
