@@ -78,6 +78,25 @@ def send_response(req_json):
     #https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
     print("-----------")
     response = req_json.copy()
+    uid = req_json['request']['uid']
+
+    response["request"] = None
+    response["response"] = {
+            "uid": uid,
+            "allowed": True
+        }
+    
+    
+    print(">>>>>")
+    print(response)
+    print("<<<<<")
+
+    return jsonify(response)
+
+def send_response2(req_json):
+    #https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
+    print("-----------")
+    response = req_json.copy()
     
     uid = req_json['request']['uid']
     response = {
@@ -88,15 +107,11 @@ def send_response(req_json):
             "allowed": True
         }
     }
-        
-    
-    rspx = jsonify(response)
     print(">>>>>")
     print(response)
-    print(rspx)
     print("<<<<<")
 
-    return rspx
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
