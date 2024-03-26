@@ -46,6 +46,14 @@ def validate():
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
     print("*** mutate")
+    # Extract the admission review request
+    admission_review = request.json
+    
+    # Log the received admission review (optional)
+    print("Received admission review:", admission_review)
+    
+    # Return the original admission review without making any changes
+    return jsonify(admission_review)
     print(request.json)
     
 
