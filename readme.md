@@ -17,4 +17,4 @@ If you have same problem, I hope this will solve your problem too.
 
 ## Thanks
 
-This project is possible with @ckavili's help. Thank you
+This project is possible with @ckavili help. Thank you
