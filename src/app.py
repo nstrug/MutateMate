@@ -25,6 +25,7 @@ pipeline_mutater = PipelineRunMutaterService()
 
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
+    print("********************** Mutate **********************")
     print(request.json)
 
     #For Emergency. By pass everything
@@ -61,7 +62,6 @@ def mutate_pod():
 
 def send_response(req_json, payload : list = None):
     #https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
-    print("-----------")
     response = req_json.copy()
     uid = req_json['request']['uid']
 
