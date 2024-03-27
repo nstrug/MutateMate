@@ -32,10 +32,8 @@ def mutate_pod():
     #return send_response(request.json)
     #
 
-    #payload = [{"op": "add", "path": "/templates/labels", "value": "budabizden" }]
-    #payload = [{"op": "add", "path": "/metadata/labels", "value": {"budabizden": "demeeeee" }}]
-    
-    payload = [{"op": "add", "path": "request/object/metadata/labels", "value": {"budabizden": "demeeeee" } }]
+    #payload = [{"op": "add", "path": "request/object/metadata/labels", "value": {"budabizden": "demeeeee" } }]
+    payload = [{"op": "add", "path": "/metadata/labels", "value": {"budabizden": "demeeeee" }}]
     
     return send_response(request.json, payload)
 
