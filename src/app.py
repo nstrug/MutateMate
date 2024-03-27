@@ -70,7 +70,7 @@ def send_response(req_json, payload : list = None):
 
     if(payload is not None):
         response["response"]["patchType"] = "JSONPatch"
-        response["response"]["patch"] = base64.b64encode(json.dump(payload)).encode()
+        response["response"]["patch"] = base64.b64encode(json.dumps(payload)).encode()
     
     
     print(">>>>>")
