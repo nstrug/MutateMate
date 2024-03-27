@@ -31,7 +31,7 @@ def mutate_pod():
     #return send_response(request.json)
     #
 
-    payload = [{"op": "add", "path": "/templates/labels", "budabizden": "degerler olacak burada"}]
+    payload = [{"op": "add", "path": "/templates/labels", "value": {"budabizden": "degerler olacak burada" } }]
     return send_response(request.json, payload)
 
     #################
@@ -63,14 +63,19 @@ def send_response(req_json, payload : list = None):
     response = req_json.copy()
     uid = req_json['request']['uid']
 
+    response.pop('request', None)
+    # tmp1 =  [{"op": "add", "path": "/spec/replicas", "value": 3}]
+    # tmp2 = base64.b64encode(json.dumps(tmp1).encode('utf-8')).decode()
+    # tmp3 = base64.b64encode(json.dumps(tmp1).encode()).decode()
+    # tmp4 = base64.b64encode(str(tmp1).encode()).decode()    
+    # isequal = tmp2 == "W3sib3AiOiAiYWRkIiwgInBhdGgiOiAiL3NwZWMvcmVwbGljYXMiLCAidmFsdWUiOiAzfV0="
+
     response["response"] = {
             "uid": uid,
             "allowed": True
     }
 
     if(payload is not None):
-        #tmp_ser = base64.b64encode(json.dumps(payload).encode()).decode()
-        #tmp_ser = base64.b64encode(str(payload).encode()).decode()
         tmp_ser = base64.b64encode(json.dumps(payload).encode('utf-8')).decode()
         response["response"]["patchType"] = "JSONPatch"
         response["response"]["patch"] = tmp_ser
