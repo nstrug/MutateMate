@@ -69,8 +69,9 @@ def send_response(req_json, payload : list = None):
     }
 
     if(payload is not None):
-        tmp_ser = base64.b64encode(json.dumps(payload).encode()).decode()
+        #tmp_ser = base64.b64encode(json.dumps(payload).encode()).decode()
         #tmp_ser = base64.b64encode(str(payload).encode()).decode()
+        tmp_ser = base64.b64encode(json.dumps(payload).encode('utf-8')).decode()
         response["response"]["patchType"] = "JSONPatch"
         response["response"]["patch"] = tmp_ser
     
