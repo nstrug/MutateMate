@@ -1,6 +1,7 @@
 import os
 import base64
 import copy
+import json
 
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
@@ -69,7 +70,7 @@ def send_response(req_json, payload : list = None):
 
     if(payload is not None):
         response["response"]["patchType"] = "JSONPatch"
-        response["response"]["patch"] = base64.b64encode(payload).encode()
+        response["response"]["patch"] = base64.b64encode(json.dump(payload)).encode()
     
     
     print(">>>>>")
