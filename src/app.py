@@ -27,8 +27,13 @@ def mutate_pod():
     print(request.json)
 
     #For Emergency. By pass everything
-    return send_response(request.json)
+    #return send_response(request.json)
     #
+
+    payload = [{"op": "add", "path": "/templates/labels", "budabizden": "degerler olacak burada"}]
+    return send_response(request.json, payload)
+
+    #################
 
     req_json = request.json.copy()
 
@@ -51,7 +56,7 @@ def mutate_pod():
 
     return req_json
 
-def send_response(req_json):
+def send_response(req_json, payload : list = None):
     #https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
     print("-----------")
     response = req_json.copy()
@@ -61,6 +66,10 @@ def send_response(req_json):
             "uid": uid,
             "allowed": True
     }
+
+    if(payload is not None):
+        response["response"]["patchType"] = "JSONPatch"
+        response["response"]["patch"] = base64.b64encode(payload).encode()
     
     
     print(">>>>>")
