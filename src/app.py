@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from services.JsonHelperService import JsonHelperService
 from services.KubeWrapperService import KubeWrapperService
 from services.NotebookMutaterService import NotebookMutaterService
 from services.PipelineRunMutaterService import PipelineRunMutaterService
@@ -22,6 +23,7 @@ crd_name_list = [ cnst_pipeline, cnst_notebook ]
 
 notebook_mutater = NotebookMutaterService()
 pipeline_mutater = PipelineRunMutaterService()
+jsonService = JsonHelperService()
 
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
@@ -34,6 +36,9 @@ def mutate_pod():
 
     #payload = [{"op": "add", "path": "request/object/metadata/labels", "value": {"budabizden": "demeeeee" } }]
     payload = [{"op": "add", "path": "/metadata/labels", "value": {"budabizden": "demeeeee" }}]
+
+    json_data = jsonService.get_dict(request.json)
+    print(json_data)
     
     return send_response(request.json, payload)
 
