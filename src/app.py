@@ -35,7 +35,7 @@ def mutate_pod():
     #
 
     payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
-    payload.append({"op": "add", "path": "/spec/template/spec/containers/0/env", "value": {"name": "thy1", "value": "thyvalue2"}})
+    payload.append({"op": "add", "path": "/spec/template/spec/containers/0/env/-", "value": {"name": "thy1", "value": "thyvalue2"}})
 
     json_data = jsonService.get_dict(request.json)
     print(json_data)
