@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ .Values.appname }}
     app.belongs.to: AdvancedAnalytic
-spec:
+spec:  
   replicas: {{ .Values.replicacount }}
   selector:
     app: {{ .Values.appname }}
@@ -28,6 +28,8 @@ spec:
         app: {{ .Values.appname }}
         deploymentconfig: {{ .Values.appname }}
     spec:
+      serviceAccountName: {{ .Values.appname }}
+      serviceAccount: {{ .Values.appname }}
       volumes:
         - name: webhook-tls-certs
           secret:

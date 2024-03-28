@@ -1,0 +1,38 @@
+kind: MutatingWebhookConfiguration
+apiVersion: admissionregistration.k8s.io/v1
+metadata:
+  name: {{ .Values.appname }}-webhook
+  labels:
+    component: {{ .Values.appname }}-controller
+    developedby: thy
+webhooks:
+  - name: mutate.opendatahub.io
+    sideEffects: None
+    clientConfig:
+      service:
+        namespace: mutatemate
+        name: mutatemateapi
+        path: /mutate
+        port: 8080
+      caBundle: >-
+        123456789
+    reinvocationPolicy: Never
+    rules:
+      - operations:
+          - CREATE
+          - UPDATE
+        apiGroups:
+          - kubeflow.org
+        apiVersions:
+          - v1
+        resources:
+          - notebooks
+          - pipelineruns
+        scope: '*'
+    matchPolicy: Equivalent
+    namespaceSelector: {}
+    admissionReviewVersions:
+      - v1
+    failurePolicy: Fail
+    objectSelector: {}
+    timeoutSeconds: 10
