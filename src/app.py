@@ -31,11 +31,11 @@ def mutate_pod():
     print(request.json)
 
     #For Emergency. By pass everything
-    #return send_response(request.json)
+    return send_response(request.json)
     #
 
     #payload = [{"op": "add", "path": "request/object/metadata/labels", "value": {"budabizden": "demeeeee" } }]
-    payload = [{"op": "add", "path": "/metadata/labels", "value": {"budabizden": "demeeeee" }}]
+    payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
 
     json_data = jsonService.get_dict(request.json)
     print(json_data)
