@@ -29,11 +29,16 @@ jsonService = JsonHelperService()
 
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
+    #try catch will be added here:
+    return main_flow(request)
+    return send_response(request.json)
+
+def main_flow(request):
     print("********************** Mutate **********************")
     print(request.json)
 
     #For Emergency. By pass everything; uncomment this return:
-    #return send_response(request.json)
+    return send_response(request.json)
     #
 
     payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
