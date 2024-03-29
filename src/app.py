@@ -44,7 +44,7 @@ def main_flow(request):
     payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
 
     req_data = JsonBag(request.json)
-    print(f"Request consumed => {json.dumps(req_data.to_json())}")
+    print(f"Request consumed => {req_data.to_json()}")
     
     #return send_response(request.json, payload)
 
