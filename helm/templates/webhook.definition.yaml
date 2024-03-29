@@ -15,7 +15,7 @@ webhooks:
         path: /mutate
         port: 8080
       caBundle: >-
-        123456789
+        bG9yZSBpcHN1bQ==
     reinvocationPolicy: Never
     rules:
       - operations:
