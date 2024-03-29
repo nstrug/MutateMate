@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from services.JsonHelperService import JsonHelperService
+from services.JsonBag import JsonBag
 from services.KubeWrapperService import KubeWrapperService
 from services.NotebookMutaterService import NotebookMutaterService
 from services.PipelineRunMutaterService import PipelineRunMutaterService
@@ -20,15 +20,19 @@ cnst_notebook = "Notebook"
 
 cnst_kube_url = os.getenv("BASE_URL")
 cnst_kube_access_token = os.getenv("ACCESS_TOKEN")
+cnst_kube_current_namespace = os.getenv("kubeprojectname")
 
 crd_name_list = [ cnst_pipeline, cnst_notebook ]
 
 notebook_mutater = NotebookMutaterService()
 pipeline_mutater = PipelineRunMutaterService()
-jsonService = JsonHelperService()
 
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
+    #For Emergency. By pass everything; uncomment this return:
+    #return send_response(request.json)
+    #
+
     #try catch will be added here:
     return main_flow(request)
     return send_response(request.json)
@@ -37,31 +41,25 @@ def main_flow(request):
     print("********************** Mutate **********************")
     print(request.json)
 
-    #For Emergency. By pass everything; uncomment this return:
-    return send_response(request.json)
-    #
-
     payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
 
-    data_req = jsonService.get_dict(request.json)
-    print(data_req)
+    req_data = JsonBag(request.json)
+    print(f"Request consumed => {req_data}")
     
     #return send_response(request.json, payload)
 
     #################
 
-    val_kind = data_req["kind"]
-    val_namespace = data_req["namespace"]
-    if val_kind not in crd_name_list : return send_response(request.json)
+    if req_data.kind not in crd_name_list : return send_response(request.json)
 
     kube_service = KubeWrapperService(cnst_kube_url, cnst_kube_access_token)
 
     payload_extra = []
 
-    if val_kind == cnst_notebook: 
-        payload_extra = notebook_mutater.generate_mutation(request.json, kube_service)
+    if req_data.kind == cnst_notebook: 
+        payload_extra = notebook_mutater.generate_mutation(req_data, kube_service, cnst_kube_current_namespace)
 
-    if val_kind == cnst_pipeline: 
+    if req_data.kind == cnst_pipeline: 
         payload_extra = flow_pipeline(request.json, kube_service)
 
     return send_response(request.json, payload + payload_extra)
@@ -90,9 +88,8 @@ def send_response(req_json, payload : list = None):
         response["response"]["patch"] = tmp_ser
     
     
-    print(">>>>>")
+    print(">>>>> Response:")
     print(response)
-    print("<<<<<")
 
     return jsonify(response)
 

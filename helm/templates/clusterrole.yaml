@@ -4,20 +4,21 @@ kind: ClusterRole
 metadata:
   name: {{ .Values.appname }}-clusterrole
 rules:
-  - apiGroups:
+  - verbs:
+      - get
+      - list
+    apiGroups:
       - ''
     resources:
-      - namespaces    
-    verbs:
+      - namespaces
+      - secrets
+  - verbs:
       - get
       - list
-  - apiGroups:
-      - 'kubeflow.org'
+    apiGroups:
+      - kubeflow.org
     resources:
       - notebooks
-    verbs:
-      - get
-      - list
 
 ---
 

@@ -1,4 +1,5 @@
 import re
+import base64
 from kubernetes import client, config
 
 class KubeWrapperService:
@@ -51,6 +52,9 @@ class KubeWrapperService:
             if(tmp_name not in filter_names): continue
 
             secret_list.update(itm.data)
+        
+        for itm_key, itm_value in secret_list.items():
+            secret_list[itm_key] = base64.b64decode(itm_value).decode('utf-8')
         
         return secret_list
 

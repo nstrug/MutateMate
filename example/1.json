@@ -2,7 +2,7 @@
     "kind": "AdmissionReview",
     "apiVersion": "admission.k8s.io/v1",
     "request": {
-        "uid": "01408b33-8ff8-463a-bd4e-a8ffc5adc80c",
+        "uid": "070e128c-a505-45d8-afa6-19bb4d5c3064",
         "kind": {
             "group": "kubeflow.org",
             "version": "v1",
@@ -23,23 +23,19 @@
             "version": "v1",
             "resource": "notebooks"
         },
-        "name": "jupyter-nb-admin",
-        "namespace": "rhods-notebooks",
+        "name": "t1",
+        "namespace": "ozandeneme",
         "operation": "CREATE",
         "userInfo": {
-            "username": "system:serviceaccount:redhat-ods-applications:rhods-dashboard",
-            "uid": "99d1d879-854f-4543-bcb6-da15d6f5d9e6",
+            "username": "admin",
+            "uid": "149153bd-0037-4087-ae22-4882e4a1dfe6",
             "groups": [
-                "system:serviceaccounts",
-                "system:serviceaccounts:redhat-ods-applications",
+                "system:authenticated:oauth",
                 "system:authenticated"
             ],
             "extra": {
-                "authentication.kubernetes.io/pod-name": [
-                    "rhods-dashboard-7746b644b8-mk96l"
-                ],
-                "authentication.kubernetes.io/pod-uid": [
-                    "bf90dce2-5fd5-423b-b04b-afa19f652457"
+                "scopes.authorization.openshift.io": [
+                    "user:full"
                 ]
             }
         },
@@ -48,16 +44,18 @@
             "kind": "Notebook",
             "metadata": {
                 "annotations": {
-                    "kubeflow-resource-stopped": "",
                     "notebooks.opendatahub.io/inject-oauth": "true",
-                    "notebooks.opendatahub.io/last-image-selection": "code-server-notebook:2023.2",
+                    "notebooks.opendatahub.io/last-image-selection": "s2i-minimal-notebook:2023.2",
                     "notebooks.opendatahub.io/last-size-selection": "Small",
-                    "notebooks.opendatahub.io/oauth-logout-url": "https://rhods-dashboard-redhat-ods-applications.apps.cluster-xkhd8.xkhd8.sandbox664.opentlc.com/notebookController/admin/home",
+                    "notebooks.opendatahub.io/oauth-logout-url": "https://rhods-dashboard-redhat-ods-applications.apps.cluster-jfmng.jfmng.sandbox1887.opentlc.com/projects/ozandeneme?notebookLogout=t1",
                     "opendatahub.io/accelerator-name": "",
-                    "opendatahub.io/username": "admin"
+                    "opendatahub.io/image-display-name": "Minimal Python",
+                    "opendatahub.io/username": "admin",
+                    "openshift.io/description": "lüzumsuz yazı @oracledb",
+                    "openshift.io/display-name": "t1"
                 },
                 "labels": {
-                    "app": "jupyter-nb-admin",
+                    "app": "t1",
                     "opendatahub.io/dashboard": "true",
                     "opendatahub.io/odh-managed": "true",
                     "opendatahub.io/user": "admin"
@@ -70,13 +68,15 @@
                             "f:metadata": {
                                 "f:annotations": {
                                     ".": {},
-                                    "f:kubeflow-resource-stopped": {},
                                     "f:notebooks.opendatahub.io/inject-oauth": {},
                                     "f:notebooks.opendatahub.io/last-image-selection": {},
                                     "f:notebooks.opendatahub.io/last-size-selection": {},
                                     "f:notebooks.opendatahub.io/oauth-logout-url": {},
                                     "f:opendatahub.io/accelerator-name": {},
-                                    "f:opendatahub.io/username": {}
+                                    "f:opendatahub.io/image-display-name": {},
+                                    "f:opendatahub.io/username": {},
+                                    "f:openshift.io/description": {},
+                                    "f:openshift.io/display-name": {}
                                 },
                                 "f:labels": {
                                     ".": {},
@@ -103,11 +103,11 @@
                         },
                         "manager": "unknown",
                         "operation": "Update",
-                        "time": "2024-03-26T21:20:47Z"
+                        "time": "2024-03-29T11:41:25Z"
                     }
                 ],
-                "name": "jupyter-nb-admin",
-                "namespace": "rhods-notebooks"
+                "name": "t1",
+                "namespace": "ozandeneme"
             },
             "spec": {
                 "template": {
@@ -118,23 +118,20 @@
                                 "env": [
                                     {
                                         "name": "NOTEBOOK_ARGS",
-                                        "value": "--ServerApp.port=8888\n                  --ServerApp.token=\"\"\n                  --ServerApp.password=\"\"\n                  --ServerApp.base_url=/notebook/rhods-notebooks/jupyter-nb-admin\n                  --ServerApp.quit_button=False\n                  --ServerApp.tornado_settings={'user':'admin','hub_host':'https://rhods-dashboard-redhat-ods-applications.apps.cluster-xkhd8.xkhd8.sandbox664.opentlc.com','hub_prefix':'/notebookController/admin'}"
+                                        "value": "--ServerApp.port=8888\n                  --ServerApp.token=\"\"\n                  --ServerApp.password=\"\"\n                  --ServerApp.base_url=/notebook/ozandeneme/t1\n                  --ServerApp.quit_button=False\n                  --ServerApp.tornado_settings={'user':'admin','hub_host':'https://rhods-dashboard-redhat-ods-applications.apps.cluster-jfmng.jfmng.sandbox1887.opentlc.com','hub_prefix':'/projects/ozandeneme'}"
                                     },
                                     {
                                         "name": "JUPYTER_IMAGE",
-                                        "value": "image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/code-server-notebook:2023.2"
-                                    },
-                                    {
-                                        "name": "JUPYTER_NOTEBOOK_PORT",
-                                        "value": "8888"
+                                        "value": "image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/s2i-minimal-notebook:2023.2"
                                     }
                                 ],
-                                "image": "image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/code-server-notebook:2023.2",
+                                "envFrom": [],
+                                "image": "image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/s2i-minimal-notebook:2023.2",
                                 "imagePullPolicy": "Always",
                                 "livenessProbe": {
                                     "failureThreshold": 3,
                                     "httpGet": {
-                                        "path": "/notebook/rhods-notebooks/jupyter-nb-admin/api",
+                                        "path": "/notebook/ozandeneme/t1/api",
                                         "port": "notebook-port",
                                         "scheme": "HTTP"
                                     },
@@ -143,7 +140,7 @@
                                     "successThreshold": 1,
                                     "timeoutSeconds": 1
                                 },
-                                "name": "jupyter-nb-admin",
+                                "name": "t1",
                                 "ports": [
                                     {
                                         "containerPort": 8888,
@@ -154,7 +151,7 @@
                                 "readinessProbe": {
                                     "failureThreshold": 3,
                                     "httpGet": {
-                                        "path": "/notebook/rhods-notebooks/jupyter-nb-admin/api",
+                                        "path": "/notebook/ozandeneme/t1/api",
                                         "port": "notebook-port",
                                         "scheme": "HTTP"
                                     },
@@ -176,7 +173,7 @@
                                 "volumeMounts": [
                                     {
                                         "mountPath": "/opt/app-root/src",
-                                        "name": "jupyterhub-nb-admin-pvc"
+                                        "name": "t1"
                                     },
                                     {
                                         "mountPath": "/dev/shm",
@@ -190,221 +187,9 @@
                         "tolerations": [],
                         "volumes": [
                             {
-                                "name": "jupyterhub-nb-admin-pvc",
+                                "name": "t1",
                                 "persistentVolumeClaim": {
-                                    "claimName": "jupyterhub-nb-admin-pvc"
-                                }
-                            },
-                            {
-                                "emptyDir": {
-                                    "medium": "Memory"
-                                },
-                                "name": "shm"
-                            }
-                        ]
-                    }
-                }
-            }
-        },
-        "oldObject": null,
-        "dryRun": false,
-        "options": {
-            "kind": "CreateOptions",
-            "apiVersion": "meta.k8s.io/v1"
-        }
-    },
-    "response": {
-        "uid": "01408b33-8ff8-463a-bd4e-a8ffc5adc80c",
-        "kind": {
-            "group": "kubeflow.org",
-            "version": "v1",
-            "kind": "Notebook"
-        },
-        "resource": {
-            "group": "kubeflow.org",
-            "version": "v1",
-            "resource": "notebooks"
-        },
-        "requestKind": {
-            "group": "kubeflow.org",
-            "version": "v1",
-            "kind": "Notebook"
-        },
-        "requestResource": {
-            "group": "kubeflow.org",
-            "version": "v1",
-            "resource": "notebooks"
-        },
-        "name": "jupyter-nb-admin",
-        "namespace": "rhods-notebooks",
-        "operation": "CREATE",
-        "userInfo": {
-            "username": "system:serviceaccount:redhat-ods-applications:rhods-dashboard",
-            "uid": "99d1d879-854f-4543-bcb6-da15d6f5d9e6",
-            "groups": [
-                "system:serviceaccounts",
-                "system:serviceaccounts:redhat-ods-applications",
-                "system:authenticated"
-            ],
-            "extra": {
-                "authentication.kubernetes.io/pod-name": [
-                    "rhods-dashboard-7746b644b8-mk96l"
-                ],
-                "authentication.kubernetes.io/pod-uid": [
-                    "bf90dce2-5fd5-423b-b04b-afa19f652457"
-                ]
-            }
-        },
-        "object": {
-            "apiVersion": "kubeflow.org/v1",
-            "kind": "Notebook",
-            "metadata": {
-                "annotations": {
-                    "kubeflow-resource-stopped": "",
-                    "notebooks.opendatahub.io/inject-oauth": "true",
-                    "notebooks.opendatahub.io/last-image-selection": "code-server-notebook:2023.2",
-                    "notebooks.opendatahub.io/last-size-selection": "Small",
-                    "notebooks.opendatahub.io/oauth-logout-url": "https://rhods-dashboard-redhat-ods-applications.apps.cluster-xkhd8.xkhd8.sandbox664.opentlc.com/notebookController/admin/home",
-                    "opendatahub.io/accelerator-name": "",
-                    "opendatahub.io/username": "admin"
-                },
-                "labels": {
-                    "app": "jupyter-nb-admin",
-                    "opendatahub.io/dashboard": "true",
-                    "opendatahub.io/odh-managed": "true",
-                    "opendatahub.io/user": "admin"
-                },
-                "managedFields": [
-                    {
-                        "apiVersion": "kubeflow.org/v1",
-                        "fieldsType": "FieldsV1",
-                        "fieldsV1": {
-                            "f:metadata": {
-                                "f:annotations": {
-                                    ".": {},
-                                    "f:kubeflow-resource-stopped": {},
-                                    "f:notebooks.opendatahub.io/inject-oauth": {},
-                                    "f:notebooks.opendatahub.io/last-image-selection": {},
-                                    "f:notebooks.opendatahub.io/last-size-selection": {},
-                                    "f:notebooks.opendatahub.io/oauth-logout-url": {},
-                                    "f:opendatahub.io/accelerator-name": {},
-                                    "f:opendatahub.io/username": {}
-                                },
-                                "f:labels": {
-                                    ".": {},
-                                    "f:app": {},
-                                    "f:opendatahub.io/dashboard": {},
-                                    "f:opendatahub.io/odh-managed": {},
-                                    "f:opendatahub.io/user": {}
-                                }
-                            },
-                            "f:spec": {
-                                ".": {},
-                                "f:template": {
-                                    ".": {},
-                                    "f:spec": {
-                                        ".": {},
-                                        "f:affinity": {},
-                                        "f:containers": {},
-                                        "f:enableServiceLinks": {},
-                                        "f:tolerations": {},
-                                        "f:volumes": {}
-                                    }
-                                }
-                            }
-                        },
-                        "manager": "unknown",
-                        "operation": "Update",
-                        "time": "2024-03-26T21:20:47Z"
-                    }
-                ],
-                "name": "jupyter-nb-admin",
-                "namespace": "rhods-notebooks"
-            },
-            "spec": {
-                "template": {
-                    "spec": {
-                        "affinity": {},
-                        "containers": [
-                            {
-                                "env": [
-                                    {
-                                        "name": "NOTEBOOK_ARGS",
-                                        "value": "--ServerApp.port=8888\n                  --ServerApp.token=\"\"\n                  --ServerApp.password=\"\"\n                  --ServerApp.base_url=/notebook/rhods-notebooks/jupyter-nb-admin\n                  --ServerApp.quit_button=False\n                  --ServerApp.tornado_settings={'user':'admin','hub_host':'https://rhods-dashboard-redhat-ods-applications.apps.cluster-xkhd8.xkhd8.sandbox664.opentlc.com','hub_prefix':'/notebookController/admin'}"
-                                    },
-                                    {
-                                        "name": "JUPYTER_IMAGE",
-                                        "value": "image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/code-server-notebook:2023.2"
-                                    },
-                                    {
-                                        "name": "JUPYTER_NOTEBOOK_PORT",
-                                        "value": "8888"
-                                    }
-                                ],
-                                "image": "image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/code-server-notebook:2023.2",
-                                "imagePullPolicy": "Always",
-                                "livenessProbe": {
-                                    "failureThreshold": 3,
-                                    "httpGet": {
-                                        "path": "/notebook/rhods-notebooks/jupyter-nb-admin/api",
-                                        "port": "notebook-port",
-                                        "scheme": "HTTP"
-                                    },
-                                    "initialDelaySeconds": 10,
-                                    "periodSeconds": 5,
-                                    "successThreshold": 1,
-                                    "timeoutSeconds": 1
-                                },
-                                "name": "jupyter-nb-admin",
-                                "ports": [
-                                    {
-                                        "containerPort": 8888,
-                                        "name": "notebook-port",
-                                        "protocol": "TCP"
-                                    }
-                                ],
-                                "readinessProbe": {
-                                    "failureThreshold": 3,
-                                    "httpGet": {
-                                        "path": "/notebook/rhods-notebooks/jupyter-nb-admin/api",
-                                        "port": "notebook-port",
-                                        "scheme": "HTTP"
-                                    },
-                                    "initialDelaySeconds": 10,
-                                    "periodSeconds": 5,
-                                    "successThreshold": 1,
-                                    "timeoutSeconds": 1
-                                },
-                                "resources": {
-                                    "limits": {
-                                        "cpu": "2",
-                                        "memory": "8Gi"
-                                    },
-                                    "requests": {
-                                        "cpu": "1",
-                                        "memory": "8Gi"
-                                    }
-                                },
-                                "volumeMounts": [
-                                    {
-                                        "mountPath": "/opt/app-root/src",
-                                        "name": "jupyterhub-nb-admin-pvc"
-                                    },
-                                    {
-                                        "mountPath": "/dev/shm",
-                                        "name": "shm"
-                                    }
-                                ],
-                                "workingDir": "/opt/app-root/src"
-                            }
-                        ],
-                        "enableServiceLinks": false,
-                        "tolerations": [],
-                        "volumes": [
-                            {
-                                "name": "jupyterhub-nb-admin-pvc",
-                                "persistentVolumeClaim": {
-                                    "claimName": "jupyterhub-nb-admin-pvc"
+                                    "claimName": "t1"
                                 }
                             },
                             {
