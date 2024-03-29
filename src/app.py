@@ -44,7 +44,7 @@ def main_flow(request):
     payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
 
     req_data = JsonBag(request.json)
-    print(f"Request consumed => {req_data}")
+    print(f"Request consumed => {json.dumps(req_data)}")
     
     #return send_response(request.json, payload)
 
@@ -60,7 +60,8 @@ def main_flow(request):
         payload_extra = notebook_mutater.generate_mutation(req_data, kube_service, cnst_kube_current_namespace)
 
     if req_data.kind == cnst_pipeline: 
-        payload_extra = flow_pipeline(request.json, kube_service)
+        return send_response(request.json)
+        #payload_extra = flow_pipeline(request.json, kube_service)
 
     return send_response(request.json, payload + payload_extra)
 

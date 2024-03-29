@@ -23,6 +23,7 @@ webhooks:
           - UPDATE
         apiGroups:
           - kubeflow.org
+          - tekton.dev
         apiVersions:
           - v1
         resources:
