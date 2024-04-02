@@ -17,8 +17,8 @@ class PipelineRunMutaterService:
         kube_secrets, kube_cpu, kube_ram, kube_gpu = kube_service.get_notebook_secrets_and_resources(data_req)
 
         #Secret commands:
-        for task_index in range(0, task_count):
-            for itm_key, itm_value in kube_secrets.getitems():
+        for task_index in range(0, task_count + 1):
+            for itm_key, itm_value in kube_secrets.items():
                 pr_payload.append(mwh_service.add_secret_for_pipeline(task_index, itm_key, itm_value))
         
         #resource commands:
