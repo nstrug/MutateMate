@@ -20,6 +20,6 @@ class NotebookMutaterService:
         nb_payload = []
         
         for itm_key, itm_value in secrets_targeted.items():
-            nb_payload.append(mwh_service.add_secret_notation(itm_key, itm_value))
+            nb_payload.append(mwh_service.add_secret_for_notebook(itm_key, itm_value))
 
         return nb_payload

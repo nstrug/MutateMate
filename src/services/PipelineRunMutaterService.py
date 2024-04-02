@@ -13,11 +13,13 @@ class PipelineRunMutaterService:
         pr_payload = []
 
         mwh_service = MutatingHelperService()
-        kube_secrets, kube_cpu, kube_ram, kube_gpu = kube_service.get_notebook_info(data_req)
+        task_count = kube_service.get_notebook_task_count(data_req)
+        kube_secrets, kube_cpu, kube_ram, kube_gpu = kube_service.get_notebook_secrets_and_resources(data_req)
 
         #Secret commands:
-        for itm_key, itm_value in kube_secrets.getitems():
-            pr_payload.append(mwh_service.add_secret_notation(itm_key, itm_value))
+        for task_index in range(0, task_count):
+            for itm_key, itm_value in kube_secrets.getitems():
+                pr_payload.append(mwh_service.add_secret_for_pipeline(task_index, itm_key, itm_value))
         
         #resource commands:
 

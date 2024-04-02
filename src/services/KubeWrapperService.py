@@ -47,7 +47,15 @@ class KubeWrapperService:
     
     ### Notebook Info Retreival =>
 
-    def get_notebook_info(self, request_data : JsonBag):
+    def get_notebook_task_count(self, request_data : JsonBag):
+        tmp_obj =  request_data.raw["request"]["object"]
+        tmp_tasks = tmp_obj.get("spec").get("pipelineSpec").get("tasks")
+        
+        if(tmp_tasks is None): return 0
+        return len(tmp_tasks)
+
+
+    def get_notebook_secrets_and_resources(self, request_data : JsonBag):
         filter_nms =f'metadata.namespace={request_data.namespace}'
         tmp_notebooks = self.custom_api.list_cluster_custom_object(group="kubeflow.org", version="v1", plural="notebooks", field_selector=filter_nms)
 

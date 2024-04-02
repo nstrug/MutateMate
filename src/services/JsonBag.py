@@ -6,6 +6,7 @@ class JsonBag():
     def __init__(self, json_data : json, running_namespace : str) -> None:
         self.assign_values(json_data)
         self.api_namespace = running_namespace
+        self.raw = json_data
         pass
     
     def to_json(self):
@@ -13,7 +14,8 @@ class JsonBag():
             'kind': self.kind,
             'name': self.name,
             "namespace": self.namespace,
-            "workbench_description": self.workbench_description
+            "workbench_description": self.workbench_description,
+            "api_namespace": self.api_namespace
         }
 
     def assign_values(self, json_data):
