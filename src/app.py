@@ -60,7 +60,7 @@ def main_flow(request):
         payload_extra = notebook_mutater.generate_mutation(req_data, kube_service, cnst_kube_current_namespace)
 
     if req_data.kind == cnst_pipeline: 
-        payload_extra = kube_service.get_notebook_info(req_data)
+        payload_extra = pipeline_mutater.mutate(req_data, kube_service)
 
     return send_response(request.json, payload + payload_extra)
 
