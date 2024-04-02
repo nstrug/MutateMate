@@ -1,24 +1,24 @@
 
 import json
 
+from services.KubeWrapperService import KubeWrapperService
+from services.MutatingHelperService import MutatingHelperService
+
 
 class PipelineRunMutaterService:
     def __init__(self) -> None:
         pass
 
-    def mutate(self, data : json, secrets : dict, cpu : str, ram : str, gpu : str) -> json:
-        data["metadata"]["labels"]["MutatingMate"] = "PipelineRunMutater"
-        data = self.assign_secrets(data, secrets)
+    def mutate(self, data_req : json, kube_service : KubeWrapperService) -> json:
+        pr_payload = []
 
-        return data
+        mwh_service = MutatingHelperService()
+        kube_secrets, kube_cpu, kube_ram, kube_gpu = kube_service.get_notebook_info(data_req)
 
-    def assign_secrets(self, data_json : json, secrets : dict) -> json:
-        tmp_tasks = data_json["spec"]["pipelineSpec"]["tasks"]
-
-        for itm_task in tmp_tasks:
-            tmp_env = itm_task["taskSpec"]["steps"][0]["env"]            
-
-            for secret_key, secret_value in secrets.items():
-                tmp_env.append({ "name":secret_key, "value": secret_value })
+        #Secret commands:
+        for itm_key, itm_value in kube_secrets.getitems():
+            pr_payload.append(mwh_service.add_secret_notation(itm_key, itm_value))
         
-        return data_json
+        #resource commands:
+
+        return pr_payload

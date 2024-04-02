@@ -43,7 +43,7 @@ def main_flow(request):
 
     payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
 
-    req_data = JsonBag(request.json)
+    req_data = JsonBag(request.json, cnst_kube_current_namespace)
     print(f"Request consumed => {req_data.to_json()}")
     
     #return send_response(request.json, payload)
@@ -60,17 +60,9 @@ def main_flow(request):
         payload_extra = notebook_mutater.generate_mutation(req_data, kube_service, cnst_kube_current_namespace)
 
     if req_data.kind == cnst_pipeline: 
-        tmpx = kube_service.get_notebook_info(req_data)
-        return send_response(request.json)
-        #payload_extra = flow_pipeline(request.json, kube_service)
+        payload_extra = kube_service.get_notebook_info(req_data)
 
     return send_response(request.json, payload + payload_extra)
-
-
-def flow_pipeline(request_json : json, kube_service : KubeWrapperService) -> list:
-    val_cpu, val_ram, val_gpu = kube_service.get_all_resources()
-    nb_pipeline = []
-    return nb_pipeline
 
 def send_response(req_json, payload : list = None):
     #https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response

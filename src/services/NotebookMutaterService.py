@@ -3,6 +3,7 @@ import json
 
 from services.JsonBag import JsonBag
 from services.KubeWrapperService import KubeWrapperService
+from services.MutatingHelperService import MutatingHelperService
 
 
 class NotebookMutaterService:
@@ -15,9 +16,10 @@ class NotebookMutaterService:
 
         if(len(secrets_targeted) == 0): return []
         
+        mwh_service = MutatingHelperService()
         nb_payload = []
         
         for itm_key, itm_value in secrets_targeted.items():
-            nb_payload.append({"op": "add", "path": "/spec/template/spec/containers/0/env/-", "value": {"name": itm_key, "value": itm_value}})
+            nb_payload.append(mwh_service.add_secret_notation(itm_key, itm_value))
 
         return nb_payload

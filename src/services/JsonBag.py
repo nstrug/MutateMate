@@ -3,8 +3,9 @@ import json
 
 
 class JsonBag():
-    def __init__(self, json_data : json) -> None:
+    def __init__(self, json_data : json, running_namespace : str) -> None:
         self.assign_values(json_data)
+        self.api_namespace = running_namespace
         pass
     
     def to_json(self):

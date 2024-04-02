@@ -30,7 +30,7 @@ Content-Type: application/json
             "resource": "pipelineruns"
         },
         "name": "deneme-9828c",
-        "namespace": "ozandeneme",
+        "namespace": "mutatemate-test",
         "operation": "CREATE",
         "userInfo": {
             "username": "system:serviceaccount:ozandeneme:ds-pipeline-pipelines-definition",
@@ -115,7 +115,7 @@ Content-Type: application/json
                     }
                 ],
                 "name": "deneme-9828c",
-                "namespace": "ozandeneme"
+                "namespace": "mutatemate-test"
             },
             "spec": {
                 "pipelineSpec": {
