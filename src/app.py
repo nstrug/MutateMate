@@ -41,7 +41,6 @@ def main_flow(request):
     print("********************** Mutate **********************")
     print(json.dumps(request.json))
 
-    payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
     payload = []
     
     req_data = JsonBag(request.json, cnst_kube_current_namespace)
@@ -58,6 +57,7 @@ def main_flow(request):
     payload_extra = []
 
     if req_data.kind == cnst_notebook: 
+        payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
         payload_extra = notebook_mutater.generate_mutation(req_data, kube_service, cnst_kube_current_namespace)
 
     if req_data.kind == cnst_pipeline: 
