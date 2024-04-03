@@ -18,3 +18,9 @@ If you have same problem, I hope this will solve your problem too.
 ## Thanks
 
 This project is possible with @ckavili help. Thank you
+
+### ProTip: Access Token
+
+To get the access token for local debug; goto mutatemateapi pod and at the terminal write this command:
+
+cat /run/secrets/kubernetes.io/serviceaccount/token
