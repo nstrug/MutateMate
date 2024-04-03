@@ -18,19 +18,21 @@ class MutatingHelperService:
         payload.append(
         {
             "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/computeResources" , 
-                "value": { "limits": { "nvidia.com/gpu": gpu_limit, "cpu": cpu_limit, "memory": ram_limit }
+                "value": { 
+                    "limits": { "nvidia.com/gpu": gpu_limit, "cpu": cpu_limit, "memory": ram_limit },
+                    "requests": { "cpu": "1m", "memory": "1Mi" }
             }
         })
 
-        #this thing is a workaround. We don't want to assing request but it is default setting
-        min_gpu = gpu_limit
-        if( int(min_gpu) > 0): min_gpu = 1
-        payload.append(
-        {
-            "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/computeResources" , 
-                "value": { "requests": { "cpu": "1m", "memory": "1Mi" }
-            }
-        }) 
+        # #this thing is a workaround. We don't want to assing request but it is default setting
+        # min_gpu = gpu_limit
+        # if( int(min_gpu) > 0): min_gpu = 1
+        # payload.append(
+        # {
+        #     "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/computeResources" , 
+        #         "value": {  }
+        #     }
+        # }) 
 
         return payload
     
