@@ -6,6 +6,8 @@ import json
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 
+from services.MutatingHelperService import MutatingHelperService
+
 load_dotenv()
 
 from services.JsonBag import JsonBag
@@ -26,6 +28,7 @@ crd_name_list = [ cnst_pipeline, cnst_notebook ]
 
 notebook_mutater = NotebookMutaterService()
 pipeline_mutater = PipelineRunMutaterService()
+mutate_helper = MutatingHelperService()
 
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
@@ -41,9 +44,12 @@ def main_flow(request):
     print("********************** Mutate **********************")
     print(json.dumps(request.json))
 
-    payload = []
-    
     req_data = JsonBag(request.json, cnst_kube_current_namespace)
+
+    #payload = []
+    #payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
+    payload = mutate_helper.add_our_label(request.json["request"]["object"]["metadata"]["labels"])
+    
     print(f"Request consumed => {req_data.to_json()}")
     
     #return send_response(request.json, payload)
@@ -57,7 +63,7 @@ def main_flow(request):
     payload_extra = []
 
     if req_data.kind == cnst_notebook: 
-        payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
+        
         payload_extra = notebook_mutater.generate_mutation(req_data, kube_service, cnst_kube_current_namespace)
 
     if req_data.kind == cnst_pipeline: 
