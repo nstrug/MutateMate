@@ -23,6 +23,6 @@ class PipelineRunMutaterService:
         
         #resource commands:
         for task_index in range(0, task_count):
-            pass
+            pr_payload.append(mwh_service.add_resource_for_pipeline(task_index, kube_cpu, kube_ram, kube_gpu))
 
         return pr_payload
