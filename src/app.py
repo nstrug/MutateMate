@@ -55,7 +55,7 @@ def main_flow(request):
     
     
     wrt(f"Request consumed => {req_data.to_json()}")
-    wrt(f"Pyaload initial => {payload}")
+    wrt(f"Payload initial => {payload}")
 
     #################
 
@@ -73,7 +73,10 @@ def main_flow(request):
         #payload = [{"op": "add", "path": "/metadata/thysection", "value": {"thy.editedby": "MutateMate" }}]
         payload_extra = pipeline_mutater.mutate(req_data, kube_service)
 
-    return send_response(request.json, payload + payload_extra)
+    last_payload = payload + payload_extra
+    wrt(f"Payload last => {last_payload}")
+
+    return send_response(request.json, last_payload)
 
 def send_response(req_json, payload : list = None):
     #https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
