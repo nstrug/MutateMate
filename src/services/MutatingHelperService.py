@@ -28,7 +28,7 @@ class MutatingHelperService:
         payload.append(
         {
             "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/computeResources" , 
-                "value": { "requests": { "nvidia.com/gpu": min_gpu, "cpu": "1m", "memory": "1Mi" }
+                "value": { "requests": { "cpu": "1m", "memory": "1Mi" }
             }
         }) 
 
