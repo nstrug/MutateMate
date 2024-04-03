@@ -39,7 +39,7 @@ def mutate_pod():
 
 def main_flow(request):
     print("********************** Mutate **********************")
-    print(request.json)
+    print(json.dumps(request.json))
 
     payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
 
