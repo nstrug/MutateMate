@@ -13,7 +13,7 @@ class MutatingHelperService:
         return {
             "op": "replace", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/" , 
                 "value": {
-                    "resources": { "requests" : { "cpu": "1" } 
+                    "resources": { "requests" : { "cpu": "\"1\"" } 
                                 }
                 }
             }
