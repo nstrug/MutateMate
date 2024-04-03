@@ -22,7 +22,7 @@ class MutatingHelperService:
         pay_lbl = []
 
         for itm_key, itm_value in old_labels.items():
-            pay_lbl.append({"op": "replace", "path": "/metadata/labels", "value": {itm_key: itm_value }})
+            pay_lbl.append({"op": "add", "path": "/metadata/labels", "value": {itm_key: itm_value }})
         
-        pay_lbl.append({"op": "replace", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }})
+        pay_lbl.append({"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }})
         return pay_lbl
