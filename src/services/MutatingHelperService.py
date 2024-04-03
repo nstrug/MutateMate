@@ -11,16 +11,7 @@ class MutatingHelperService:
     
     def add_resource_for_pipeline(self, task_index : int, cpu_limit : str, ram_limit : str, gpu_limit : str):
         return {
-            "op": "replace", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/" , 
-                "value": {
-                    "resources": { "limit" : { "memory": "\"1Gi\"" } 
-                                }
-                }
-            }
-        
-        return {
-            "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/resources/" , 
-                "value": { "limits": { "nvidia.com/gpu": gpu_limit },  
-                "requests": { "cpu": cpu_limit, "memory": ram_limit }
+            "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/resources" , 
+                "value": { "limits": { "nvidia.com/gpu": gpu_limit, "cpu": cpu_limit, "memory": ram_limit }
             }
         }
