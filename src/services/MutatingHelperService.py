@@ -11,7 +11,7 @@ class MutatingHelperService:
     
     def add_resource_for_pipeline(self, task_index : int, cpu_limit : str, ram_limit : str, gpu_limit : str):
         return {
-            "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/resources" , 
+            "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/computeResources" , 
                 "value": { "requests": {  "cpu": "'2'" }
             }
         }
