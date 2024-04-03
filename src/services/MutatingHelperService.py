@@ -12,7 +12,7 @@ class MutatingHelperService:
     def add_secret_for_pipeline(self, task_index : int, key_name : str, real_value : str):
         return {"op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/env/-", "value": {"name": key_name, "value": real_value}}
     
-    def add_resource_for_pipeline(self, task_index : int, cpu_limit : str, ram_limit : str, gpu_limit : str) -> json:
+    def add_resource_for_pipeline(self, task_index : int, cpu_limit : str, ram_limit : str, gpu_limit : str) -> []:
         payload = []
         #this is for real thing we want:
         payload.append(
@@ -30,7 +30,7 @@ class MutatingHelperService:
             "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/computeResources" , 
                 "value": { "limits": { "nvidia.com/gpu": min_gpu, "cpu": "1m", "memory": "1Mi" }
             }
-        })
+        }) 
 
         return payload
     
