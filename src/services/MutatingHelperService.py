@@ -11,10 +11,16 @@ class MutatingHelperService:
     
     def add_resource_for_pipeline(self, task_index : int, cpu_limit : str, ram_limit : str, gpu_limit : str):
         return {
-            "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/computeResources" , 
+            "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/stepTemplate/resources" , 
                 "value": { "limits": { "nvidia.com/gpu": gpu_limit, "cpu": cpu_limit, "memory": ram_limit }
             }
         }
+    
+        # return {
+        #     "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/computeResources" , 
+        #         "value": { "limits": { "nvidia.com/gpu": gpu_limit, "cpu": cpu_limit, "memory": ram_limit }
+        #     }
+        # }
     
     def add_our_label(self, old_labels : dict):
         #[{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
