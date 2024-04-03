@@ -24,7 +24,7 @@ class MutatingHelperService:
 
         #this thing is a workaround. We don't want to assing request but it is default setting
         min_gpu = gpu_limit
-        if( min_gpu > 0): min_gpu = 1
+        if( int(min_gpu) > 0): min_gpu = 1
         payload.append(
         {
             "op": "add", "path": f"/spec/pipelineSpec/tasks/{task_index}/taskSpec/steps/0/computeResources" , 
