@@ -70,7 +70,7 @@ def main_flow(request):
         payload_extra = notebook_mutater.generate_mutation(req_data, kube_service, cnst_kube_current_namespace)
 
     if req_data.kind == cnst_pipeline: 
-        payload = [{"op": "add", "path": "/metadata/thysection", "value": {"thy.editedby": "MutateMate" }}]
+        #payload = [{"op": "add", "path": "/metadata/thysection", "value": {"thy.editedby": "MutateMate" }}]
         payload_extra = pipeline_mutater.mutate(req_data, kube_service)
 
     return send_response(request.json, payload + payload_extra)
