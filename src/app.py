@@ -42,6 +42,7 @@ def main_flow(request):
     print(json.dumps(request.json))
 
     payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
+    payload = []
 
     req_data = JsonBag(request.json, cnst_kube_current_namespace)
     print(f"Request consumed => {req_data.to_json()}")

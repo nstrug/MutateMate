@@ -22,5 +22,7 @@ class PipelineRunMutaterService:
                 pr_payload.append(mwh_service.add_secret_for_pipeline(task_index, itm_key, itm_value))
         
         #resource commands:
+        for task_index in range(0, task_count):
+            pass
 
         return pr_payload
