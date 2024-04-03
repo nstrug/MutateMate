@@ -30,6 +30,9 @@ notebook_mutater = NotebookMutaterService()
 pipeline_mutater = PipelineRunMutaterService()
 mutate_helper = MutatingHelperService()
 
+def wrt(msg_to_print : str):
+    print(f">>> {msg_to_print}")
+
 @app.route('/mutate', methods=['POST'])
 def mutate_pod():
     #For Emergency. By pass everything; uncomment this return:
@@ -41,8 +44,8 @@ def mutate_pod():
     return send_response(request.json)
 
 def main_flow(request):
-    print("********************** Mutate **********************")
-    print(json.dumps(request.json))
+    wrt("********************** Mutate **********************")
+    wrt(json.dumps(request.json))
 
     req_data = JsonBag(request.json, cnst_kube_current_namespace)
 
@@ -50,9 +53,9 @@ def main_flow(request):
     #payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
     payload = mutate_helper.add_our_label(request.json["request"]["object"]["metadata"]["labels"])
     
-    print(f"Request consumed => {req_data.to_json()}")
     
-    #return send_response(request.json, payload)
+    wrt(f"Request consumed => {req_data.to_json()}")
+    wrt(f"Pyaload initial => {payload}")
 
     #################
 
@@ -89,8 +92,7 @@ def send_response(req_json, payload : list = None):
         response["response"]["patch"] = tmp_ser
     
     
-    print(">>>>> Response:")
-    print(response)
+    wrt(response)
 
     return jsonify(response)
 
