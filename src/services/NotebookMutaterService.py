@@ -10,7 +10,7 @@ class NotebookMutaterService:
     def __init__(self) -> None:
         pass
 
-    def generate_mutation(self, request_data : JsonBag, kube_service : KubeWrapperService, secret_namespace : str) -> list:
+    def mutate(self, request_data : JsonBag, kube_service : KubeWrapperService, secret_namespace : str) -> list:
         hashtags = kube_service.get_hashtags_from_description(request_data.workbench_description)
         secrets_targeted = kube_service.get_all_secrets_by_filter(secret_namespace, hashtags)
 

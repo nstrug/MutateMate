@@ -67,7 +67,7 @@ def main_flow(request):
 
     if req_data.kind == cnst_notebook: 
         payload = [{"op": "add", "path": "/metadata/labels", "value": {"thy.editedby": "MutateMate" }}]
-        payload_extra = notebook_mutater.generate_mutation(req_data, kube_service, cnst_kube_current_namespace)
+        payload_extra = notebook_mutater.mutate(req_data, kube_service, cnst_kube_current_namespace)
 
     if req_data.kind == cnst_pipeline: 
         #payload = [{"op": "add", "path": "/metadata/thysection", "value": {"thy.editedby": "MutateMate" }}]
