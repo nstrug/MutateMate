@@ -5,9 +5,9 @@ metadata:
   labels:
     app: {{ .Values.appname }}
     app.belongs.to: AdvancedAnalytic
-  annotations:
-    service.beta.openshift.io/inject-cabundle: "true"
-    service.beta.openshift.io/serving-cert-secret-name: {{ .Values.appname }}
+  # annotations:
+  #   service.beta.openshift.io/inject-cabundle: "true"
+  #   service.beta.openshift.io/serving-cert-secret-name: {{ .Values.appname }}
 spec:
   ports:
     - name: {{ .Values.appname }}-8080
