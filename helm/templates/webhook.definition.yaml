@@ -14,8 +14,8 @@ webhooks:
         name: mutatemateapi
         path: /mutate
         port: 8080
-      caBundle: >-
-        bG9yZSBpcHN1bQ==
+      # caBundle: >-
+      #   bG9yZSBpcHN1bQ==
     reinvocationPolicy: Never
     rules:
       - operations:
