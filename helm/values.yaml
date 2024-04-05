@@ -1,5 +1,5 @@
 appname: mutatemateapi
 replicacount: 1
 gitadress: "https://github.com/nstrug/MutateMate.git"
-dockerpath: "/src/"
+dockerpath: "/src"
 branchname: master
